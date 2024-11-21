@@ -10,6 +10,7 @@
     "jest-environment-jsdom": "^29.7.0"
   },
   "scripts": {
-    "test": "npx --node-options=--experimental-vm-modules jest || exit 0"
+    "test": "npx --node-options=--experimental-vm-modules jest || exit 0",
+    "test:coverage": "node --experimental-vm-modules ./node_modules/.bin/jest --coverage"
   }
 }
