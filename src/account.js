@@ -1,8 +1,9 @@
 export class Account {
     #balance
 
-    constructor() {
+    constructor(accountManager) {
         this.#balance = 0
+        this.accountManager = accountManager
     }
 
     getBalance() {
@@ -11,5 +12,6 @@ export class Account {
 
     deposit(amount) {
         this.#balance += amount
+        this.accountManager.logTransaction(`Deposit on ${amount} completed`)
     }
 } 
