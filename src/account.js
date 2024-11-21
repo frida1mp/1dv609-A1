@@ -10,6 +10,6 @@ export class Account {
     }
 
     deposit(amount) {
-        return 0
+        this.#balance += amount
     }
 } 
