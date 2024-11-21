@@ -3,7 +3,7 @@ export class AccountManager {
         this.transaction = []
     }
 
-    logTransaction(message) {
+    logTransaction(amount) {
         return 0
     }
 

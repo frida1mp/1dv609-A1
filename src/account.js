@@ -12,6 +12,6 @@ export class Account {
 
     deposit(amount) {
         this.#balance += amount
-        this.accountManager.logTransaction(`Deposit on ${amount} completed`)
+        return this.accountManager.logTransaction(amount)
     }
 } 

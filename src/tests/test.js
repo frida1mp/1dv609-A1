@@ -1,11 +1,16 @@
 import { Account } from "../account.js"
 import { jest } from '@jest/globals'
+import { AccountManager } from "../accountManager.js"
 
-function createAccountWithMockManager() {
-  const mockAccountManager = { logTransaction: jest.fn() };
-  const account = new Account(mockAccountManager);
-  return { account, mockAccountManager };
-}
+jest.mock("./src/accountManager.js", () => {
+  return {
+    AccountManager: jest.fn().mockImplementation(() => {
+      return {
+        logTransaction: jest.fn() // Mock logTransaction method
+      }
+    })
+  }
+})
 
 test('should create an account with an initial balance of 0', () => {
   const account = new Account()
@@ -13,9 +18,10 @@ test('should create an account with an initial balance of 0', () => {
 })
 
 test('should deposit money into the current balance', () => {
-  const {account} = createAccountWithMockManager()
+  const mockAccountManager = new AccountManager()
+
+  const account = new Account(mockAccountManager)
   account.deposit(50)
   expect(account.getBalance()).toBe(50)
 })
-
 
