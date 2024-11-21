@@ -33,4 +33,9 @@ describe('BookingManager', () => {
     account.deposit(40)
     expect(account.deposit(40)).toBe(`Deposited ${40}`)
   })
+
+  test('should withdraw money from the current balance', () => {
+    account.withdraw(40)
+    expect(account.getBalance()).toBe(-40)
+  })
 })

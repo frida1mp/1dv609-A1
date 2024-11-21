@@ -15,4 +15,8 @@ export class Account {
         return this.accountManager.logTransaction(amount)    
     }
 
+    withdraw(amount) {
+        return 0
+      }
+
 } 
