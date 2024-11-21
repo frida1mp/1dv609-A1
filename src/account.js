@@ -12,6 +12,7 @@ export class Account {
 
     deposit(amount) {
         this.#balance += amount
-        return this.accountManager.logTransaction(amount)
+        return this.accountManager.logTransaction(amount)    
     }
+
 } 
