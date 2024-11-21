@@ -16,6 +16,7 @@ export class Account {
     }
 
     withdraw(amount) {
+        this.#balance -= amount;
         return 0
       }
 
