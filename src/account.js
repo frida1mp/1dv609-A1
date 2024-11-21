@@ -1,5 +1,9 @@
 export class Account {
+    #balance 
+    constructor() {
+        this.#balance = 0
+    }
     getBalance() {
-        return 1
+        return this.#balance
     }
 } 
