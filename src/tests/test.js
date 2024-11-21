@@ -38,4 +38,10 @@ describe('BookingManager', () => {
     account.withdraw(40)
     expect(account.getBalance()).toBe(-40)
   })
+
+
+  test('should log transaction message after withdrawing money', () => {
+    account.withdraw(40)
+    expect(account.withdraw(40)).toBe(`Deposited ${-40}`)
+  })
 })
