@@ -4,7 +4,7 @@ export class AccountManager {
     }
 
     logTransaction(amount) {
-        return 0
+        return `Deposited ${amount}`
     }
 
     getTransaction() {
