@@ -11,6 +11,9 @@ export class Account {
     }
 
     deposit(amount) {
+        if (typeof amount != "number" || amount < 0) {
+            throw new Error("Deposit amount must be a valid positive number.")
+        }
         this.#balance += amount
         return this.accountManager.logTransaction(amount)    
     }
