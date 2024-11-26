@@ -29,13 +29,13 @@ describe('BookingManager', () => {
     expect(account.getBalance()).toBe(50)
   })
 
+  test('should throw exception when depositing string', () => {
+    expect(() => account.deposit("50")).toThrow("Deposit amount must be a valid positive number.")
+  })
+
   test('should log transaction message after depositing money', () => {
     account.deposit(40)
     expect(account.deposit(40)).toBe(`Deposited ${40}`)
-  })
-
-  test('should throw exception', () => {
-    expect(() => account.deposit("50")).toThrow("Deposit amount must be a valid positive number.")
   })
 
   test('should withdraw money from the current balance', () => {
