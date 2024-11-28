@@ -63,4 +63,8 @@ describe('BookingManager', () => {
   test('should throw exception when creating a transaction with invalid type', () => {
     expect(() => new Transaction(90, 80)).toThrow('Type of transaction needs to be deposit or withdraw')
   })
+
+  test('should throw exception when creating a transaction with invalid amount', () => {
+    expect(() => new Transaction('deposit', '80')).toThrow('Type of transaction needs to be a number')
+  })
 })
