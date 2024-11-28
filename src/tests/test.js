@@ -43,6 +43,10 @@ describe('BookingManager', () => {
     expect(account.getBalance()).toBe(-40)
   })
 
+  test('should throw exception when withdrawing string', () => {
+    expect(() => account.withdraw("50")).toThrow("Withdrawing amount must be a valid positive number.")
+  })
+
 
   test('should log transaction message after withdrawing money', () => {
     account.withdraw(40)
