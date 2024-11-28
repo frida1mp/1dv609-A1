@@ -1,6 +1,7 @@
 import { Account } from "../account.js"
 import { expect, jest } from '@jest/globals'
 import { AccountManager } from "../accountManager.js"
+import { Transaction } from "../transaction.js"
 
 jest.mock("./src/accountManager.js", () => {
   return {
@@ -47,9 +48,15 @@ describe('BookingManager', () => {
     expect(() => account.withdraw("50")).toThrow("Withdrawing amount must be a valid positive number.")
   })
 
-
   test('should log transaction message after withdrawing money', () => {
     account.withdraw(40)
     expect(account.withdraw(40)).toBe(`Deposited ${-40}`)
+  })
+
+  test('should log transaction type, time and amount', () => {
+    const transaction = new Transaction('deposit', 80)
+    expect(transaction.type).toBe('deposit')
+    expect(transaction.amount).toBe(80)
+    expect(transaction.time).toBeInstanceOf(Date)
   })
 })
