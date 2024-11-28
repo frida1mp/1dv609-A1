@@ -1,22 +1,37 @@
 import { Account } from "../account.js"
 import { expect, jest } from '@jest/globals'
-import { AccountManager } from "../accountManager.js"
+import { AccountManager } from '../accountManager.js'
 import { Transaction } from "../transaction.js"
+
+jest.mock("./src/transaction.js", () => {
+  return {
+    Transaction: jest.fn().mockImplementation((type, amount) => {
+      return {
+        type,
+        amount,
+        time: new Date(),
+      }
+    }),
+  }
+})
 
 jest.mock("./src/accountManager.js", () => {
   return {
-    AccountManager: jest.fn().mockImplementation(() => {
+    AccountManager: jest.fn().mockImplementation((transactionClass) => {
       return {
-        logTransaction: jest.fn() // Mock logTransaction method
+        Transaction: transactionClass,
+        logTransaction: jest.fn(),
       }
-    })
+    }),
   }
 })
+
 describe('BookingManager', () => {
   let account
+  let mockAccountManager
 
   beforeEach(() => {
-    const mockAccountManager = new AccountManager()
+    mockAccountManager = new AccountManager(Transaction)
     account = new Account(mockAccountManager)
   })
 
@@ -66,5 +81,10 @@ describe('BookingManager', () => {
 
   test('should throw exception when creating a transaction with invalid amount', () => {
     expect(() => new Transaction('deposit', '80')).toThrow('Type of transaction needs to be a number')
+  })
+
+  test('should log transaction using an injected Transaction instance', () => {
+    account.deposit(40)
+    expect(mockAccountManager.logTransaction).toHaveBeenCalledWith("deposit", 40)
   })
 })
