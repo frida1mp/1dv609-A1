@@ -60,7 +60,7 @@ describe('BookingManager', () => {
     expect(transaction.time).toBeInstanceOf(Date)
   })
 
-  test('should throw exception when creating a transaction with no type', () => {
+  test('should throw exception when creating a transaction with invalid type', () => {
     expect(() => new Transaction(90, 80)).toThrow('Type of transaction needs to be deposit or withdraw')
   })
 })
