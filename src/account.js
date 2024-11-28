@@ -19,6 +19,9 @@ export class Account {
     }
 
     withdraw(amount) {
+        if (typeof amount != "number" || amount < 0) {
+            throw new Error("Withdrawing amount must be a valid positive number.")
+        }
         this.#balance -= amount;
         return this.accountManager.logTransaction(-amount)
       }
