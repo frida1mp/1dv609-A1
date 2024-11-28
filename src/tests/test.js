@@ -53,10 +53,14 @@ describe('BookingManager', () => {
     expect(account.withdraw(40)).toBe(`Deposited ${-40}`)
   })
 
-  test('should log transaction type, time and amount', () => {
+  test('should add new transaction with type, time and amount', () => {
     const transaction = new Transaction('deposit', 80)
     expect(transaction.type).toBe('deposit')
     expect(transaction.amount).toBe(80)
     expect(transaction.time).toBeInstanceOf(Date)
+  })
+
+  test('should throw exception when creating a transaction with no type', () => {
+    expect(() => new Transaction(90, 80)).toThrow('Type of transaction needs to be deposit or withdraw')
   })
 })
