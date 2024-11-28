@@ -17,9 +17,8 @@ jest.mock("./src/transaction.js", () => {
 
 jest.mock("./src/accountManager.js", () => {
   return {
-    AccountManager: jest.fn().mockImplementation((transactionClass) => {
+    AccountManager: jest.fn().mockImplementation(() => {
       return {
-        Transaction: transactionClass,
         logTransaction: jest.fn(),
       }
     }),
@@ -46,12 +45,12 @@ describe('BookingManager', () => {
   })
 
   test('should throw exception when depositing string', () => {
-    expect(() => account.deposit("50")).toThrow("Deposit amount must be a valid positive number.")
+    expect(() => account.deposit("50")).rejects.toThrow("Deposit amount must be a valid positive number.")
   })
 
-  test('should log transaction message after depositing money', () => {
-    account.deposit(40)
-    expect(account.deposit(40)).toBe(`Deposited ${40}`)
+  test('should log transaction message after depositing money', async () => {
+    const result = await account.deposit(40)
+    expect(result).toBe(`Deposited ${40}`)
   })
 
   test('should withdraw money from the current balance', () => {
@@ -60,12 +59,12 @@ describe('BookingManager', () => {
   })
 
   test('should throw exception when withdrawing string', () => {
-    expect(() => account.withdraw("50")).toThrow("Withdrawing amount must be a valid positive number.")
+    expect(() => account.withdraw("50")).rejects.toThrow("Withdrawing amount must be a valid positive number.")
   })
 
-  test('should log transaction message after withdrawing money', () => {
-    account.withdraw(40)
-    expect(account.withdraw(40)).toBe(`Deposited ${-40}`)
+  test('should log transaction message after withdrawing money', async () => {
+    const result = await account.withdraw(40)
+    expect(result).toBe(`Deposited ${-40}`)
   })
 
   test('should add new transaction with type, time and amount', () => {
@@ -83,8 +82,11 @@ describe('BookingManager', () => {
     expect(() => new Transaction('deposit', '80')).toThrow('Type of transaction needs to be a number')
   })
 
-  test('should log transaction using an injected Transaction instance', () => {
-    account.deposit(40)
+  test('should log transaction using an injected Transaction instance', async () => {
+    jest.spyOn(mockAccountManager, 'logTransaction');
+
+    await account.deposit(40)
     expect(mockAccountManager.logTransaction).toHaveBeenCalledWith("deposit", 40)
+      // expect(account.deposit).toReturn("deposit", 40)
   })
 })
