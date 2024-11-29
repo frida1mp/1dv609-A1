@@ -17,9 +17,9 @@ const showMenu = () => {
 }
 
 const userInput = async (question) => {
-//     const questionA = await new Promise((resolve) => rl.question(question, resolve))
-//     return questionA
-  }
+    const questionA = await new Promise((resolve) => rl.question(question, resolve))
+    return questionA
+}
 
 let account
 
@@ -39,7 +39,7 @@ const handleUserChoice = async (choice) => {
             account.deposit(parseFloat(depositAmount))
             console.log(`${depositAmount}kr has been deposited!`)
             break
-        
+
         default:
             console.log("Invalid choice. Please try again.")
     }
