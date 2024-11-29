@@ -17,8 +17,8 @@ const showMenu = () => {
 }
 
 const userInput = async (question) => {
-    const questionA = await new Promise((resolve) => rl.question(question, resolve))
-    return questionA
+//     const questionA = await new Promise((resolve) => rl.question(question, resolve))
+//     return questionA
   }
 
 let account
@@ -45,22 +45,22 @@ const handleUserChoice = async (choice) => {
     }
 }
 
-const runApp = async () => {
-    let running = true
+// const runApp = async () => {
+//     let running = true
 
-    while (running) {
-        showMenu()
-        const choice = await userInput("Choose an option: ")
-        if (choice === '5') {
-            running = false
-        }
-        await handleUserChoice(choice)
-    }
-    console.log("Thank you for using the Banking App!")
-    if (!process.env.JEST_ENV) {
-        rl.close()
-    }
-}
-runApp()
+//     while (running) {
+//         showMenu()
+//         const choice = await userInput("Choose an option: ")
+//         if (choice === '5') {
+//             running = false
+//         }
+//         await handleUserChoice(choice)
+//     }
+//     console.log("Thank you for using the Banking App!")
+//     if (!process.env.JEST_ENV) {
+//         rl.close()
+//     }
+// }
+// runApp()
 
-export { showMenu, userInput, handleUserChoice, rl }
+export { showMenu, handleUserChoice, rl, userInput }

@@ -3,7 +3,7 @@ import readline from 'node:readline'
 import { afterAll, afterEach, expect, jest } from '@jest/globals'
 import { AccountManager } from '../accountManager.js'
 import { Transaction } from '../transaction.js'
-import { showMenu, handleUserChoice, rl } from '../ui.js'
+import { showMenu, handleUserChoice, rl, userInput } from '../ui.js'
 
 jest.mock('./src/transaction.js', () => {
   return {
@@ -135,4 +135,12 @@ describe('BookingManager', () => {
     logSpy.mockRestore()
   })
 
+  test('should return user input to question', async () => {
+    const mockQuestion = jest.spyOn(rl, 'question').mockImplementation((_, callback) => {
+      callback('test input')
+    })
+    const result = await userInput('Enter something: ')
+    expect(result).toBe('test input')
+    expect(mockQuestion).toHaveBeenCalledWith('Enter something: ', expect.any(Function))
+  })
 })
