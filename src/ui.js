@@ -16,9 +16,12 @@ const showMenu = () => {
     console.log('4. Exit')
 }
 
-const userInput = (question) => {
-    return new Promise((resolve) => rl.question(question, resolve))
-}
+const userInput = async (question) => {
+    console.log('Question asked:', question);
+    const questionA = await new Promise((resolve) => rl.question(question, resolve))
+    console.log('testing que', questionA)
+    return questionA
+  }
 
 let account
 
@@ -28,6 +31,15 @@ const handleUserChoice = async (choice) => {
             console.log('Creating you new account...')
             account = new Account(new AccountManager(Transaction))
             console.log('Account created successfully!')
+            break
+        case '2':
+            if (!account) {
+                console.log("Please create an account first.")
+                break
+            }
+            const depositAmount = '50' //await userInput("Enter deposit amount: ")
+            account.deposit(parseFloat(depositAmount))
+            console.log(`${depositAmount}kr has been deposited!`)
             break
         
         default:
@@ -47,6 +59,9 @@ const runApp = async () => {
         await handleUserChoice(choice)
     }
     console.log("Thank you for using the Banking App!")
+    if (!process.env.JEST_ENV) {
+        rl.close()
+    }
 }
 runApp()
 
