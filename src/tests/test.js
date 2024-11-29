@@ -99,11 +99,11 @@ describe('BookingManager', () => {
 
   test('should display the menu', () => {
     showMenu()
-    expect(logSpy).toHaveBeenCalledWith('\nWelcome to the Banking App!')
-    expect(logSpy).toHaveBeenCalledWith('1. Create Account')
-    expect(logSpy).toHaveBeenCalledWith('2. Deposit Money')
-    expect(logSpy).toHaveBeenCalledWith('3. Withdraw Money')
-    expect(logSpy).toHaveBeenCalledWith('4. Exit')
+    expect(logSpy).toHaveBeenNthCalledWith(1, 'Welcome to our bank')
+    expect(logSpy).toHaveBeenNthCalledWith(2, '1. Create Account')
+    expect(logSpy).toHaveBeenNthCalledWith(3, '2. Deposit money')
+    expect(logSpy).toHaveBeenNthCalledWith(4, '3. Withdraw money')
+    expect(logSpy).toHaveBeenNthCalledWith(5, '4. Exit')
   })
 
 })
