@@ -78,10 +78,8 @@ const runApp = async () => {
         }
         await handleUserChoice(choice)
     }
-
     console.log("Thank you for using the Banking App!")
 }
-
 runApp()
 
 export { showMenu, userInput, rl }

@@ -2,7 +2,7 @@ import { Account } from '../account.js'
 import { expect, jest } from '@jest/globals'
 import { AccountManager } from '../accountManager.js'
 import { Transaction } from '../transaction.js'
-import { userInput, showMenu, rl } from '../ui.js'
+import { showMenu, rl } from '../ui.js'
 
 jest.mock('./src/transaction.js', () => {
   return {
