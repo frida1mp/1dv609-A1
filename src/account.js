@@ -16,7 +16,6 @@ export class Account {
         }
         this.#balance += amount
         const log = await this.accountManager.logTransaction('deposit', amount) 
-        console.log('logging', log)
         return log
     }
 
