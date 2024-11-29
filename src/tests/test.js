@@ -1,9 +1,10 @@
-import { Account } from "../account.js"
+import { Account } from '../account.js'
 import { expect, jest } from '@jest/globals'
 import { AccountManager } from '../accountManager.js'
-import { Transaction } from "../transaction.js"
+import { Transaction } from '../transaction.js'
+import { userInput, showMenu, rl } from '../ui.js'
 
-jest.mock("./src/transaction.js", () => {
+jest.mock('./src/transaction.js', () => {
   return {
     Transaction: jest.fn().mockImplementation((type, amount) => {
       return {
@@ -15,7 +16,7 @@ jest.mock("./src/transaction.js", () => {
   }
 })
 
-jest.mock("./src/accountManager.js", () => {
+jest.mock('./src/accountManager.js', () => {
   return {
     AccountManager: jest.fn().mockImplementation(() => {
       return {
@@ -28,10 +29,18 @@ jest.mock("./src/accountManager.js", () => {
 describe('BookingManager', () => {
   let account
   let mockAccountManager
+  let logSpy
 
   beforeEach(() => {
     mockAccountManager = new AccountManager(Transaction)
     account = new Account(mockAccountManager)
+
+    logSpy = jest.spyOn(console, 'log').mockImplementation(() => {})
+  })
+
+  afterEach(() => {
+    jest.restoreAllMocks()
+    rl.close()
   })
 
 
@@ -45,7 +54,7 @@ describe('BookingManager', () => {
   })
 
   test('should throw exception when depositing string', () => {
-    expect(() => account.deposit("50")).rejects.toThrow("Deposit amount must be a valid positive number.")
+    expect(() => account.deposit('50')).rejects.toThrow('Deposit amount must be a valid positive number.')
   })
 
   test('should log transaction message after depositing money', async () => {
@@ -59,7 +68,7 @@ describe('BookingManager', () => {
   })
 
   test('should throw exception when withdrawing string', () => {
-    expect(() => account.withdraw("50")).rejects.toThrow("Withdrawing amount must be a valid positive number.")
+    expect(() => account.withdraw('50')).rejects.toThrow('Withdrawing amount must be a valid positive number.')
   })
 
   test('should log transaction message after withdrawing money', async () => {
@@ -83,10 +92,18 @@ describe('BookingManager', () => {
   })
 
   test('should log transaction using an injected Transaction instance', async () => {
-    jest.spyOn(mockAccountManager, 'logTransaction');
-
+    jest.spyOn(mockAccountManager, 'logTransaction')
     await account.deposit(40)
-    expect(mockAccountManager.logTransaction).toHaveBeenCalledWith("deposit", 40)
-      // expect(account.deposit).toReturn("deposit", 40)
+    expect(mockAccountManager.logTransaction).toHaveBeenCalledWith('deposit', 40)
   })
+
+  test('should display the menu', () => {
+    showMenu()
+    expect(logSpy).toHaveBeenCalledWith('\nWelcome to the Banking App!')
+    expect(logSpy).toHaveBeenCalledWith('1. Create Account')
+    expect(logSpy).toHaveBeenCalledWith('2. Deposit Money')
+    expect(logSpy).toHaveBeenCalledWith('3. Withdraw Money')
+    expect(logSpy).toHaveBeenCalledWith('4. Exit')
+  })
+
 })
