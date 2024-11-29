@@ -2,7 +2,7 @@ import { Account } from '../account.js'
 import { expect, jest } from '@jest/globals'
 import { AccountManager } from '../accountManager.js'
 import { Transaction } from '../transaction.js'
-import { showMenu, rl } from '../ui.js'
+import { showMenu, handleUserChoice, rl } from '../ui.js'
 
 jest.mock('./src/transaction.js', () => {
   return {
@@ -25,6 +25,14 @@ jest.mock('./src/accountManager.js', () => {
     }),
   }
 })
+
+jest.mock('node:readline', () => ({
+  createInterface: jest.fn(() => ({
+    question: jest.fn((question, callback) => callback('1')), // Mocked input response
+    close: jest.fn(),
+  })),
+}))
+
 
 describe('BookingManager', () => {
   let account
@@ -104,6 +112,14 @@ describe('BookingManager', () => {
     expect(logSpy).toHaveBeenNthCalledWith(3, '2. Deposit money')
     expect(logSpy).toHaveBeenNthCalledWith(4, '3. Withdraw money')
     expect(logSpy).toHaveBeenNthCalledWith(5, '4. Exit')
+  })
+
+  test('should handle choice for creating an account', async () => {
+    await handleUserChoice('1') 
+
+    expect(logSpy).toHaveBeenCalledWith('Creating you new account...')
+    expect(logSpy).toHaveBeenCalledWith('Account created successfully!')
+    expect(account).toBeDefined()
   })
 
 })

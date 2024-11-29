@@ -82,4 +82,4 @@ const runApp = async () => {
 }
 runApp()
 
-export { showMenu, userInput, rl }
+export { showMenu, userInput, handleUserChoice, rl }
