@@ -17,9 +17,7 @@ const showMenu = () => {
 }
 
 const userInput = async (question) => {
-    console.log('Question asked:', question);
     const questionA = await new Promise((resolve) => rl.question(question, resolve))
-    console.log('testing que', questionA)
     return questionA
   }
 

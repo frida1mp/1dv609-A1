@@ -51,6 +51,7 @@ describe('BookingManager', () => {
   })
 
   afterEach(() => {
+    rl.close()
   })
 
   test('should create an account with an initial balance of 0', () => {
