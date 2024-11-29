@@ -1,5 +1,6 @@
 import { Account } from '../account.js'
-import { expect, jest } from '@jest/globals'
+import readline from 'node:readline'
+import { afterAll, afterEach, expect, jest } from '@jest/globals'
 import { AccountManager } from '../accountManager.js'
 import { Transaction } from '../transaction.js'
 import { showMenu, handleUserChoice, rl } from '../ui.js'
@@ -26,13 +27,14 @@ jest.mock('./src/accountManager.js', () => {
   }
 })
 
-jest.mock('node:readline', () => ({
-  createInterface: jest.fn(() => ({
-    question: jest.fn((question, callback) => callback('1')), // Mocked input response
+jest.mock('./src/ui.js', () => ({
+  ...jest.requireActual('../ui.js'),
+  rl: {
+    question: jest.fn(),
     close: jest.fn(),
-  })),
+    on: jest.fn(),
+  }
 }))
-
 
 describe('BookingManager', () => {
   let account
@@ -40,17 +42,16 @@ describe('BookingManager', () => {
   let logSpy
 
   beforeEach(() => {
+    jest.restoreAllMocks()
     mockAccountManager = new AccountManager(Transaction)
     account = new Account(mockAccountManager)
 
     logSpy = jest.spyOn(console, 'log').mockImplementation(() => {})
+    jest.spyOn(account, 'deposit')
   })
 
   afterEach(() => {
-    jest.restoreAllMocks()
-    rl.close()
   })
-
 
   test('should create an account with an initial balance of 0', () => {
     expect(account.getBalance()).toBe(0)
@@ -120,6 +121,17 @@ describe('BookingManager', () => {
     expect(logSpy).toHaveBeenCalledWith('Creating you new account...')
     expect(logSpy).toHaveBeenCalledWith('Account created successfully!')
     expect(account).toBeDefined()
+  })
+
+  test('should deposit money when choice is 2', async () => {
+    account = new Account(new AccountManager(Transaction))
+
+    const logSpy = jest.spyOn(console, 'log').mockImplementation(() => {})
+
+    await handleUserChoice('2')
+
+    expect(logSpy).toHaveBeenCalledWith('50kr has been deposited!')
+    logSpy.mockRestore()
   })
 
 })
