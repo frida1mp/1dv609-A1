@@ -219,4 +219,8 @@ describe('BankingManger', () => {
 
   logSpy.mockRestore()
   })
+
+  test('should return username', () => {
+    expect(account.getUser()).toBe('')
+  })
 })

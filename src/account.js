@@ -4,6 +4,7 @@ export class Account {
     constructor(accountManager) {
         this.#balance = 0
         this.accountManager = accountManager
+        this.username = ''
     }
 
     getBalance() {
