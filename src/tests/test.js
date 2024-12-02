@@ -181,6 +181,25 @@ describe('BankingManger', () => {
 
     expect(logSpy).toHaveBeenCalledWith('50kr has been withdrawn!')
     logSpy.mockRestore()
+  })
 
+  test('should run the app', async () => {
+    const logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+
+  mockQuestion
+    .mockImplementationOnce((question, callback) => callback('1')) 
+    .mockImplementationOnce((question, callback) => callback('2')) 
+    .mockImplementationOnce((question, callback) => callback('50'))
+    .mockImplementationOnce((question, callback) => callback('4'))
+
+    await runApp();
+
+  expect(logSpy).toHaveBeenCalledWith('Welcome to our bank');
+  expect(logSpy).toHaveBeenCalledWith('Creating you new account...');
+  expect(logSpy).toHaveBeenCalledWith('Account created successfully!');
+  expect(logSpy).toHaveBeenCalledWith('50kr has been deposited!');
+  expect(logSpy).toHaveBeenCalledWith('Thank you for using the Banking App!');
+
+  logSpy.mockRestore()
   })
 })
