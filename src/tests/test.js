@@ -196,7 +196,7 @@ describe('BankingManger', () => {
 
     await handleUserChoice('2', undefined)
 
-    expect(logSpy).toHaveBeenCalledWith('Please create an account.')
+    expect(logSpy).toHaveBeenCalledWith('Please create an account first.')
     logSpy.mockRestore()
   })
 
