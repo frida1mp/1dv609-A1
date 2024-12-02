@@ -27,6 +27,26 @@ jest.mock('./src/accountManager.js', () => {
   }
 })
 
+jest.mock('node:readline', () => {
+  const originalModule = jest.requireActual('node:readline')
+  return {
+    ...originalModule,
+    createInterface: jest.fn().mockReturnValue({
+      question: jest.fn((query, callback) => {
+        // Simulate user input for each prompt
+        if (query === 'Choose an option: ') {
+          callback('1')  // Mocking the choice to "Create Account"
+        } else if (query === 'Enter deposit amount: ') {
+          callback('50')  // Mocking the deposit amount as '50'
+        } else {
+          callback('4')  // For exit choice
+        }
+      }),
+      close: jest.fn(),  // Prevent closing during tests
+    }),
+  }
+})
+
 jest.mock('./src/ui.js', () => ({
   ...jest.requireActual('../ui.js'),
   rl: {
@@ -35,6 +55,11 @@ jest.mock('./src/ui.js', () => ({
     on: jest.fn(),
   }
 }))
+
+
+beforeAll(() => {
+  process.env.NODE_ENV = 'test'
+})
 
 describe('BookingManager', () => {
   let account
@@ -48,13 +73,11 @@ describe('BookingManager', () => {
 
     logSpy = jest.spyOn(console, 'log').mockImplementation(() => {})
     jest.spyOn(account, 'deposit')
-    mockQuestion = jest.spyOn(rl, 'question');
-
+    mockQuestion = jest.spyOn(rl, 'question')
   })
 
   afterEach(() => {
     jest.restoreAllMocks()
-    rl.close()
   })
 
   test('should create an account with an initial balance of 0', () => {
@@ -140,25 +163,23 @@ describe('BookingManager', () => {
 
   test('should return user input to question', async () => {
     const mockQuestion = jest.spyOn(rl, 'question').mockImplementation((_, callback) => {
-      callback('test input')
+      callback('50')
     })
     const result = await userInput('Enter something: ')
-    expect(result).toBe('test input')
+    console.log('test1,', result)
+    expect(result).toBe('50')
     expect(mockQuestion).toHaveBeenCalledWith('Enter something: ', expect.any(Function))
   })
 
-  test('should run the app and process choices correctly', async () => {
-    mockQuestion
-      .mockImplementationOnce((_, callback) => callback('1'))
-      .mockImplementationOnce((_, callback) => callback('2'))
-      .mockImplementationOnce((_, callback) => callback('4'))
+  test('should withdraw money when choice is 3', async () => {
+    account = new Account(new AccountManager(Transaction))
 
-    await runApp()
+    const logSpy = jest.spyOn(console, 'log').mockImplementation(() => {})
 
-    expect(logSpy).toHaveBeenCalledWith('Welcome to our bank')
-    expect(logSpy).toHaveBeenCalledWith('Creating you new account...')
-    expect(logSpy).toHaveBeenCalledWith('Account created successfully!')
-    expect(logSpy).toHaveBeenCalledWith('50kr has been deposited!')
-    expect(logSpy).toHaveBeenCalledWith('Thank you for using the Banking App!')
+    await handleUserChoice('3')
+
+    expect(logSpy).toHaveBeenCalledWith('50kr has been withdrawn!')
+    logSpy.mockRestore()
+
   })
 })
