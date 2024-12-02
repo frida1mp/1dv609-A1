@@ -191,8 +191,17 @@ describe('BankingManger', () => {
     logSpy.mockRestore()
   })
 
+  test('should throw error when no account and choice is 3', async () => {
+    const logSpy = jest.spyOn(console, 'log').mockImplementation(() => {})
+
+    await handleUserChoice('2', undefined)
+
+    expect(logSpy).toHaveBeenCalledWith('Please create an account.')
+    logSpy.mockRestore()
+  })
+
   test('should run the app', async () => {
-    const logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    const logSpy = jest.spyOn(console, 'log').mockImplementation(() => {})
 
   mockQuestion
     .mockImplementationOnce((question, callback) => callback('1')) 
@@ -200,13 +209,13 @@ describe('BankingManger', () => {
     .mockImplementationOnce((question, callback) => callback('50'))
     .mockImplementationOnce((question, callback) => callback('4'))
 
-    await runApp();
+    await runApp()
 
-  expect(logSpy).toHaveBeenCalledWith('Welcome to our bank');
-  expect(logSpy).toHaveBeenCalledWith('Creating you new account...');
-  expect(logSpy).toHaveBeenCalledWith('Account created successfully!');
-  expect(logSpy).toHaveBeenCalledWith('50kr has been deposited!');
-  expect(logSpy).toHaveBeenCalledWith('Thank you for using the Banking App!');
+  expect(logSpy).toHaveBeenCalledWith('Welcome to our bank')
+  expect(logSpy).toHaveBeenCalledWith('Creating you new account...')
+  expect(logSpy).toHaveBeenCalledWith('Account created successfully!')
+  expect(logSpy).toHaveBeenCalledWith('50kr has been deposited!')
+  expect(logSpy).toHaveBeenCalledWith('Thank you for using the Banking App!')
 
   logSpy.mockRestore()
   })
