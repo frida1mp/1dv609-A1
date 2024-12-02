@@ -163,10 +163,9 @@ describe('BankingManger', () => {
   })
 
   test('should throw error when no account and choice is 2', async () => {
-    account = undefined
     const logSpy = jest.spyOn(console, 'log').mockImplementation(() => {})
 
-    await handleUserChoice('2')
+    await handleUserChoice('2', undefined)
 
     expect(logSpy).toHaveBeenCalledWith('Please create an account first.')
     logSpy.mockRestore()

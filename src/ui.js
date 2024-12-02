@@ -23,7 +23,7 @@ const userInput = async (question) => {
 
 let account
 
-const handleUserChoice = async (choice) => {
+const handleUserChoice = async (choice, account) => {
     switch (choice) {
         case '1':
             console.log('Creating you new account...')
@@ -63,7 +63,7 @@ const runApp = async () => {
         if (choice === '4') {
             running = false
         }
-        await handleUserChoice(choice)
+        await handleUserChoice(choice, account)
     }
     console.log("Thank you for using the Banking App!")
     if (!process.env.NODE_ENV !== 'test') {
