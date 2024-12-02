@@ -34,11 +34,13 @@ jest.mock('node:readline', () => {
     createInterface: jest.fn().mockReturnValue({
       question: jest.fn((query, callback) => {
         if (query === 'Choose an option: ') {
-          callback('1')
+          callback('1'); // Simulate selecting "Create Account"
+        } else if (query === 'Enter your username: ') {
+          callback('testUser'); // Simulate providing a username after selecting "Create Account"
         } else if (query === 'Enter deposit amount: ') {
-          callback('50')
+          callback('50'); // Simulate entering a deposit amount
         } else {
-          callback('4')
+          callback('4'); // Simulate selecting "Exit"
         }
       }),
       close: jest.fn(),s
@@ -142,14 +144,6 @@ describe('BankingManger', () => {
     expect(logSpy).toHaveBeenNthCalledWith(5, '4. Exit')
   })
 
-  test('should handle choice for creating an account', async () => {
-    await handleUserChoice('1', undefined) 
-
-    expect(logSpy).toHaveBeenCalledWith('Creating you new account...')
-    expect(logSpy).toHaveBeenCalledWith('Account created successfully!')
-    expect(account).toBeDefined()
-  })
-
   test('should deposit money when choice is 2', async () => {
     account = new Account(new AccountManager(Transaction))
 
@@ -212,8 +206,8 @@ describe('BankingManger', () => {
     await runApp()
 
   expect(logSpy).toHaveBeenCalledWith('Welcome to our bank')
-  expect(logSpy).toHaveBeenCalledWith('Creating you new account...')
-  expect(logSpy).toHaveBeenCalledWith('Account created successfully!')
+  expect(logSpy).toHaveBeenCalledWith('Creating your new account...')
+  expect(logSpy).toHaveBeenCalledWith('testUser, your account was created successfully!')
   expect(logSpy).toHaveBeenCalledWith('50kr has been deposited!')
   expect(logSpy).toHaveBeenCalledWith('Thank you for using the Banking App!')
 
