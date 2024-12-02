@@ -3,7 +3,7 @@ import readline from 'node:readline'
 import { afterAll, afterEach, expect, jest } from '@jest/globals'
 import { AccountManager } from '../accountManager.js'
 import { Transaction } from '../transaction.js'
-import { showMenu, handleUserChoice, rl, userInput } from '../ui.js'
+import { showMenu, handleUserChoice, rl, userInput, runApp } from '../ui.js'
 
 jest.mock('./src/transaction.js', () => {
   return {
@@ -42,7 +42,6 @@ describe('BookingManager', () => {
   let logSpy
 
   beforeEach(() => {
-    jest.restoreAllMocks()
     mockAccountManager = new AccountManager(Transaction)
     account = new Account(mockAccountManager)
 
@@ -51,6 +50,7 @@ describe('BookingManager', () => {
   })
 
   afterEach(() => {
+    jest.restoreAllMocks()
     rl.close()
   })
 
@@ -142,5 +142,23 @@ describe('BookingManager', () => {
     const result = await userInput('Enter something: ')
     expect(result).toBe('test input')
     expect(mockQuestion).toHaveBeenCalledWith('Enter something: ', expect.any(Function))
+  })
+
+  test('should run the app and process choices correctly', async () => {
+    const mockQuestion = jest.spyOn(rl, 'question').mockImplementation((_, callback) => {
+      callback('1')
+    })
+    mockQuestion
+      .mockImplementationOnce((_, callback) => callback('1'))
+      .mockImplementationOnce((_, callback) => callback('2'))
+      .mockImplementationOnce((_, callback) => callback('4'))
+
+    await runApp()
+
+    expect(logSpy).toHaveBeenCalledWith('Welcome to our bank')
+    expect(logSpy).toHaveBeenCalledWith('Creating you new account...')
+    expect(logSpy).toHaveBeenCalledWith('Account created successfully!')
+    expect(logSpy).toHaveBeenCalledWith('50kr has been deposited!')
+    expect(logSpy).toHaveBeenCalledWith('Thank you for using the Banking App!')
   })
 })
