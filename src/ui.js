@@ -55,20 +55,20 @@ const handleUserChoice = async (choice) => {
 }
 
 const runApp = async () => {
-//     let running = true
+    let running = true
 
-//     while (running) {
-//         showMenu()
-//         const choice = await userInput("Choose an option: ")
-//         if (choice === '4') {
-//             running = false
-//         }
-//         await handleUserChoice(choice)
-//     }
-//     console.log("Thank you for using the Banking App!")
-//     if (!process.env.NODE_ENV !== 'test') {
-//         rl.close()
-//     }
+    while (running) {
+        showMenu()
+        const choice = await userInput("Choose an option: ")
+        if (choice === '4') {
+            running = false
+        }
+        await handleUserChoice(choice)
+    }
+    console.log("Thank you for using the Banking App!")
+    if (!process.env.NODE_ENV !== 'test') {
+        rl.close()
+    }
 }
 runApp()
 
