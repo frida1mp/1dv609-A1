@@ -78,7 +78,6 @@ describe('BankingManger', () => {
   afterEach(() => {
     jest.restoreAllMocks()
     rl.close()
-    account = undefined
   })
 
   test('should create an account with an initial balance of 0', () => {
@@ -144,7 +143,7 @@ describe('BankingManger', () => {
   })
 
   test('should handle choice for creating an account', async () => {
-    await handleUserChoice('1') 
+    await handleUserChoice('1', undefined) 
 
     expect(logSpy).toHaveBeenCalledWith('Creating you new account...')
     expect(logSpy).toHaveBeenCalledWith('Account created successfully!')
@@ -156,7 +155,7 @@ describe('BankingManger', () => {
 
     const logSpy = jest.spyOn(console, 'log').mockImplementation(() => {})
 
-    await handleUserChoice('2')
+    await handleUserChoice('2', account)
 
     expect(logSpy).toHaveBeenCalledWith('50kr has been deposited!')
     logSpy.mockRestore()
@@ -186,7 +185,7 @@ describe('BankingManger', () => {
 
     const logSpy = jest.spyOn(console, 'log').mockImplementation(() => {})
 
-    await handleUserChoice('3')
+    await handleUserChoice('3', account)
 
     expect(logSpy).toHaveBeenCalledWith('50kr has been withdrawn!')
     logSpy.mockRestore()
