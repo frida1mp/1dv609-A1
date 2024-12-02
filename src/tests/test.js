@@ -223,4 +223,9 @@ describe('BankingManger', () => {
   test('should return username', () => {
     expect(account.getUser()).toBe('')
   })
+
+  test('should return username', () => {
+    account.setUsername('testUser')
+    expect(account.getUser()).toBe('testUser')
+  })
 })
