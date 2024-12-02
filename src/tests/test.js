@@ -61,7 +61,7 @@ beforeAll(() => {
   process.env.NODE_ENV = 'test'
 })
 
-describe('BookingManager', () => {
+describe('BankingManger', () => {
   let account
   let mockAccountManager
   let logSpy
@@ -78,6 +78,7 @@ describe('BookingManager', () => {
 
   afterEach(() => {
     jest.restoreAllMocks()
+    rl.close()
   })
 
   test('should create an account with an initial balance of 0', () => {
