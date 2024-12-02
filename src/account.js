@@ -10,8 +10,8 @@ export class Account {
     getUser() {
         return this.username
     }
-    setUsername() {
-        return
+    setUsername(username) {
+        this.username = username
     }
 
     getBalance() {
