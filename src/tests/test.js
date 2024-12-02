@@ -40,6 +40,7 @@ describe('BookingManager', () => {
   let account
   let mockAccountManager
   let logSpy
+  let mockQuestion
 
   beforeEach(() => {
     mockAccountManager = new AccountManager(Transaction)
@@ -47,6 +48,8 @@ describe('BookingManager', () => {
 
     logSpy = jest.spyOn(console, 'log').mockImplementation(() => {})
     jest.spyOn(account, 'deposit')
+    mockQuestion = jest.spyOn(rl, 'question');
+
   })
 
   afterEach(() => {
@@ -145,9 +148,6 @@ describe('BookingManager', () => {
   })
 
   test('should run the app and process choices correctly', async () => {
-    const mockQuestion = jest.spyOn(rl, 'question').mockImplementation((_, callback) => {
-      callback('1')
-    })
     mockQuestion
       .mockImplementationOnce((_, callback) => callback('1'))
       .mockImplementationOnce((_, callback) => callback('2'))
