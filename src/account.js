@@ -7,6 +7,10 @@ export class Account {
         this.username = ''
     }
 
+    getUser() {
+        return this.username
+    }
+
     getBalance() {
         return this.#balance
     }
