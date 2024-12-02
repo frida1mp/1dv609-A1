@@ -33,16 +33,15 @@ jest.mock('node:readline', () => {
     ...originalModule,
     createInterface: jest.fn().mockReturnValue({
       question: jest.fn((query, callback) => {
-        // Simulate user input for each prompt
         if (query === 'Choose an option: ') {
-          callback('1')  // Mocking the choice to "Create Account"
+          callback('1')
         } else if (query === 'Enter deposit amount: ') {
-          callback('50')  // Mocking the deposit amount as '50'
+          callback('50')
         } else {
-          callback('4')  // For exit choice
+          callback('4')
         }
       }),
-      close: jest.fn(),  // Prevent closing during tests
+      close: jest.fn(),s
     }),
   }
 })
@@ -79,6 +78,7 @@ describe('BankingManger', () => {
   afterEach(() => {
     jest.restoreAllMocks()
     rl.close()
+    account = undefined
   })
 
   test('should create an account with an initial balance of 0', () => {
@@ -159,6 +159,16 @@ describe('BankingManger', () => {
     await handleUserChoice('2')
 
     expect(logSpy).toHaveBeenCalledWith('50kr has been deposited!')
+    logSpy.mockRestore()
+  })
+
+  test('should throw error when no account and choice is 2', async () => {
+    account = undefined
+    const logSpy = jest.spyOn(console, 'log').mockImplementation(() => {})
+
+    await handleUserChoice('2')
+
+    expect(logSpy).toHaveBeenCalledWith('Please create an account first.')
     logSpy.mockRestore()
   })
 
