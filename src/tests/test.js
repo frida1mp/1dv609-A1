@@ -244,7 +244,7 @@ describe('BankingManger', () => {
     account =  await handleUserChoice('1', undefined)
 
     expect(logSpy).toHaveBeenCalledWith('Creating your new account...')
-    expect(logSpy).toHaveBeenCalledWith('Account created successfully for user: testUser!')
+    expect(logSpy).toHaveBeenCalledWith('testUser, your account was created successfully!')
 
     expect(account.getUser()).toBe('testUser')
 

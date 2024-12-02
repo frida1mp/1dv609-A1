@@ -26,10 +26,12 @@ let account
 const handleUserChoice = async (choice, account) => {
     switch (choice) {
         case '1':
-            console.log('Creating you new account...')
-            const username = 'test'//await userInput("Enter username: ")
+            console.log('Creating your new account...')
+            const username = 'testUser'//await userInput("Enter username: ")
             account = new Account(new AccountManager(Transaction))
-            console.log('Account created successfully!')
+            account.setUsername(username)
+            console.log(`${username}, your account was created successfully!`)
+            break
         case '2':
             if (!account) {
                 console.log("Please create an account first.")
