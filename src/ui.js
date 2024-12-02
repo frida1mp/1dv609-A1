@@ -27,7 +27,7 @@ const handleUserChoice = async (choice, account) => {
     switch (choice) {
         case '1':
             console.log('Creating you new account...')
-            const username = 'test'
+            const username = 'test'//await userInput("Enter username: ")
             account = new Account(new AccountManager(Transaction))
             console.log('Account created successfully!')
         case '2':

@@ -228,4 +228,27 @@ describe('BankingManger', () => {
     account.setUsername('testUser')
     expect(account.getUser()).toBe('testUser')
   })
+
+  test('should create user with given username', async () => {
+    const mockQuestion = jest.spyOn(rl, 'question').mockImplementation((query, callback) => {
+      if (query === 'Choose an option: ') {
+          callback('1')
+      } else if (query === 'Enter your username: ') {
+          callback('testUser')
+      }
+  })
+
+    const logSpy = jest.spyOn(console, 'log').mockImplementation(() => {})
+    let account
+
+    account =  await handleUserChoice('1', undefined)
+
+    expect(logSpy).toHaveBeenCalledWith('Creating your new account...')
+    expect(logSpy).toHaveBeenCalledWith('Account created successfully for user: testUser!')
+
+    expect(account.getUser()).toBe('testUser')
+
+    mockQuestion.mockRestore()
+    logSpy.mockRestore()
+  })
 })
