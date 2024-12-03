@@ -42,7 +42,7 @@ jest.mock('readline', () => {
         } else if (query === 'Enter withdrawal amount: ') {
           callback('50')
         } else {
-          callback('4')
+          callback('5')
         }
       }),
       close: jest.fn(),
@@ -208,7 +208,7 @@ describe('BankingManger', () => {
       .mockResolvedValueOnce('1')  // Select "Create Account"
       .mockResolvedValueOnce('testUser')  // Username input
       .mockResolvedValueOnce('50')  // Deposit input
-      .mockResolvedValueOnce('4')  // Exit
+      .mockResolvedValueOnce('5')  // Exit
 
     runApp()
 
@@ -257,7 +257,7 @@ describe('BankingManger', () => {
 
     await handleUserChoice('4', account)
 
-    expect(logSpy).toHaveBeenCalledWith(`This is your current balance: 0`)
+    expect(logSpy).toHaveBeenCalledWith(`This is your current balance: 0kr`)
     logSpy.mockRestore()
   })
 })

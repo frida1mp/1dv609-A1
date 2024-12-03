@@ -70,7 +70,7 @@ const runApp = async () => {
     while (running) {
         showMenu()
         const choice = await userInput("Choose an option: ")
-        if (choice === '4') {
+        if (choice === '5') {
             running = false
         } else {
             account = await handleUserChoice(choice, account)
