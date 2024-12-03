@@ -50,6 +50,14 @@ const handleUserChoice = async (choice, account) => {
             account.deposit(parseFloat(withdrawAmount))
             console.log(`${withdrawAmount}kr has been withdrawn!`)
             break
+            case '4':
+                if (!account) {
+                    console.log("Please create an account first.")
+                    break
+                }
+                const balance = account.getBalance()
+                console.log(`This is your current balance: ${balance}kr`)
+                break
 
         default:
             console.log("Invalid choice. Please try again.")
