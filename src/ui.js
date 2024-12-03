@@ -37,7 +37,7 @@ const handleUserChoice = async (choice, account) => {
                 console.log("Please create an account first.")
                 break
             }
-            const depositAmount = '50' //await userInput("Enter deposit amount: ")
+            const depositAmount ='50' // await userInput("Enter deposit amount: ")
             account.deposit(parseFloat(depositAmount))
             console.log(`${depositAmount}kr has been deposited!`)
             break
@@ -69,8 +69,8 @@ const runApp = async () => {
         }
     }
     console.log("Thank you for using the Banking App!")
-    if (!process.env.NODE_ENV !== 'test') {
-        rl.close()
+    if (process.env.NODE_ENV !== 'test') {
+        rl.close() 
     }
 }
 runApp()
