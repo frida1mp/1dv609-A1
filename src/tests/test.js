@@ -249,4 +249,15 @@ describe('BankingManger', () => {
 
     logSpy.mockRestore()
   })
+
+  test('should show account balance when choice is 4', async () => {
+    account = new Account(new AccountManager(Transaction))
+
+    const logSpy = jest.spyOn(console, 'log').mockImplementation(() => { })
+
+    await handleUserChoice('4', account)
+
+    expect(logSpy).toHaveBeenCalledWith(`This is your current balance: 0`)
+    logSpy.mockRestore()
+  })
 })
