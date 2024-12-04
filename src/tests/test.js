@@ -3,7 +3,7 @@ import readline from 'node:readline'
 import { afterAll, afterEach, expect, jest } from '@jest/globals'
 import { AccountManager } from '../accountManager.js'
 import { Transaction } from '../transaction.js'
-import { showMenu, handleUserChoice, rl, userInput, runApp } from '../ui.js'
+import { showMenu, handleUserChoice, rl, userInput, runApp, processUserChoice } from '../ui.js'
 
 jest.mock('./src/transaction.js', () => {
   return {
@@ -24,6 +24,19 @@ jest.mock('./src/accountManager.js', () => {
         logTransaction: jest.fn(),
       }
     }),
+  }
+})
+
+jest.mock('./src/ui.js', () => {
+  const actualUi = jest.requireActual('./src/ui.js')
+  return {
+    ...actualUi,
+    userInput: jest.fn().mockResolvedValue('1'),
+    rl: {
+      question: jest.fn(),
+      close: jest.fn(),
+      on: jest.fn(),
+    }
   }
 })
 
@@ -49,15 +62,6 @@ jest.mock('readline', () => {
     }),
   }
 })
-
-jest.mock('./src/ui.js', () => ({
-  ...jest.requireActual('../ui.js'),
-  rl: {
-    question: jest.fn(),
-    close: jest.fn(),
-    on: jest.fn(),
-  }
-}))
 
 
 beforeAll(() => {
@@ -203,15 +207,11 @@ describe('BankingManger', () => {
   })
 
   test('should run the app', async () => {
-    const logSpy = jest.spyOn(console, 'log').mockImplementation(() => { })
+    userInput.mockResolvedValue('1')
 
-    mockQuestion
-      .mockResolvedValueOnce('1')  // Select "Create Account"
-      .mockResolvedValueOnce('testUser')  // Username input
-      .mockResolvedValueOnce('50')  // Deposit input
-      .mockResolvedValueOnce('5')  // Exit
-
-    runApp()
+    await runApp()
+    
+    expect(mockQuestion).toHaveBeenCalledWith('Choose an option:', expect.any(Function))
 
     expect(logSpy).toHaveBeenNthCalledWith(1, 'Welcome to our bank')
     expect(logSpy).toHaveBeenNthCalledWith(2, '1. Create Account')
@@ -220,13 +220,9 @@ describe('BankingManger', () => {
     expect(logSpy).toHaveBeenNthCalledWith(5, '4. Balance')
     expect(logSpy).toHaveBeenNthCalledWith(6, '5. Exit')
 
-    // expect(logSpy).toHaveBeenCalledWith('Welcome to our bank')
-    // expect(logSpy).toHaveBeenCalledWith('Creating your new account...')
-    // expect(logSpy).toHaveBeenCalledWith('testUser, your account was created successfully!')
-    // expect(logSpy).toHaveBeenCalledWith('50kr has been deposited!')
-    // expect(logSpy).toHaveBeenCalledWith('Thank you for using the Banking App!')
-
     logSpy.mockRestore()
+    expect(rl.close).not.toHaveBeenCalled()
+
   })
 
   test('should return username', () => {
@@ -261,5 +257,16 @@ describe('BankingManger', () => {
 
     expect(logSpy).toHaveBeenCalledWith(`This is your current balance: 0kr`)
     logSpy.mockRestore()
+  })
+
+  test('should return true if choice is 1-4 ', async () => {
+    account = new Account(new AccountManager(Transaction))
+
+    const logSpy = jest.spyOn(console, 'log').mockImplementation(() => { })
+
+    const proccessUsersChoice = await processUserChoice('1', account)
+
+    expect(proccessUsersChoice).toBe(true)
+
   })
 })
