@@ -68,7 +68,7 @@ const handleUserChoice = async (choice, account) => {
 }
 
 const processUserChoice = async (choice, account) => {
-    if (choice === '5' || !account) {
+    if (choice === '5') {
         return false
     }
     account = await handleUserChoice(choice, account)
@@ -80,11 +80,7 @@ const runApp = async () => {
     while (running) {
         showMenu()
         const choice = await userInput("Choose an option: ")
-        if (choice === '5') {
-            running = false
-        } else {
-            account = await handleUserChoice(choice, account)
-        }
+        running = await processUserChoice(choice, account)
     }
     console.log("Thank you for using the Banking App!")
     if (process.env.NODE_ENV !== 'test') {
