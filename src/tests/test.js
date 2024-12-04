@@ -147,7 +147,8 @@ describe('BankingManger', () => {
     expect(logSpy).toHaveBeenNthCalledWith(2, '1. Create Account')
     expect(logSpy).toHaveBeenNthCalledWith(3, '2. Deposit money')
     expect(logSpy).toHaveBeenNthCalledWith(4, '3. Withdraw money')
-    expect(logSpy).toHaveBeenNthCalledWith(5, '4. Exit')
+    expect(logSpy).toHaveBeenNthCalledWith(5, '4. Balance')
+    expect(logSpy).toHaveBeenNthCalledWith(6, '5. Exit')
   })
 
   test('should deposit money when choice is 2', async () => {
@@ -216,7 +217,8 @@ describe('BankingManger', () => {
     expect(logSpy).toHaveBeenNthCalledWith(2, '1. Create Account')
     expect(logSpy).toHaveBeenNthCalledWith(3, '2. Deposit money')
     expect(logSpy).toHaveBeenNthCalledWith(4, '3. Withdraw money')
-    expect(logSpy).toHaveBeenNthCalledWith(5, '4. Exit')
+    expect(logSpy).toHaveBeenNthCalledWith(5, '4. Balance')
+    expect(logSpy).toHaveBeenNthCalledWith(6, '5. Exit')
 
     // expect(logSpy).toHaveBeenCalledWith('Welcome to our bank')
     // expect(logSpy).toHaveBeenCalledWith('Creating your new account...')

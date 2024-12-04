@@ -13,7 +13,8 @@ const showMenu = () => {
     console.log('1. Create Account')
     console.log('2. Deposit money')
     console.log('3. Withdraw money')
-    console.log('4. Exit')
+    console.log('4. Balance')
+    console.log('5. Exit')
 }
 
 const userInput = async (question) => {
