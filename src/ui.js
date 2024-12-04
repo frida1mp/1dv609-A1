@@ -19,6 +19,7 @@ const showMenu = () => {
 
 const userInput = async (question) => {
     const questionA = await new Promise((resolve) => rl.question(question, resolve))
+    console.log('test', questionA)
     return questionA
 }
 
@@ -66,6 +67,14 @@ const handleUserChoice = async (choice, account) => {
     return account
 }
 
+const processUserChoice = async (choice, account) => {
+    if (choice === '5' || !account) {
+        return false
+    }
+    account = await handleUserChoice(choice, account)
+    return true
+}
+
 const runApp = async () => {
     let running = true
     while (running) {
@@ -84,4 +93,4 @@ const runApp = async () => {
 }
 runApp()
 
-export { showMenu, handleUserChoice, rl, userInput, runApp }
+export { showMenu, handleUserChoice, rl, userInput, runApp, processUserChoice }
